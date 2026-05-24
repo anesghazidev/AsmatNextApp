@@ -1,6 +1,7 @@
 {
   "name": "asmat_maman",
   "version": "0.1.0",
+  "packageManager": "pnpm@8",
   "private": false,
   "scripts": {
     "dev": "next dev",
