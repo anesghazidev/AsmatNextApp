@@ -1,30 +1,36 @@
-import connectToDatabase from "@/mongodb";
+// DB helper will be imported dynamically inside the component
 import "@/avis.style.css"
 import "@/style.css"
 
-const { db } = await connectToDatabase();
-const store = db.collection("store");
-function setObject(key, value) {
-  return store.updateOne(
-    { key },
-    { $set: { value } },
-    { upsert: true }
-  );
-}
+export const dynamic = 'force-dynamic';
 
-setObject("avis", {
-    
-})
-function getObject(key) {
-    return store.findOne({key})?.value;
-}
+// DB access moved into the component to avoid running at build-time
 
-export default function Avis() {
-    let moyenne = 0
-    let totalAvis = 0
-    let satisfaction = 0
-    return (
-        <main>
+export default async function Avis() {
+        // connect to DB at request-time (not at build-time)
+        let moyenne = 0
+        let totalAvis = 0
+        let satisfaction = 0
+        try {
+            const { default: connectToDatabase } = await import("@/mongodb");
+            const { db } = await connectToDatabase();
+            const store = db.collection("store");
+            const data = await store.findOne({ key: "avis" });
+            const avis = data?.value || [];
+            // compute simple stats if avis is an array
+            if (Array.isArray(avis) && avis.length) {
+                totalAvis = avis.length;
+                moyenne = (
+                    avis.reduce((s, a) => s + (a.rating || 0), 0) / totalAvis
+                ).toFixed(1);
+                satisfaction = Math.round((avis.filter(a => (a.rating || 0) >= 4).length / totalAvis) * 100);
+            }
+        } catch (e) {
+            // fail gracefully during build or if DB is unavailable
+            console.warn('Avis: DB access skipped or failed', e.message || e);
+        }
+        return (
+                <main>
         <div class="container">
             <div class="stats">
                 <div>
