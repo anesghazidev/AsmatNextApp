@@ -69,6 +69,25 @@ li {
             opacity: 0.8;
         }
 
+        .Nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        .Nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .Nav a:hover {
+            opacity: 0.8;
+        }
+
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
