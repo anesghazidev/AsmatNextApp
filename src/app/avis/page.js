@@ -6,29 +6,18 @@ import { connectToDatabase } from "@/mongodb";
 export const dynamic = 'force-dynamic';
 
 export async function handleSubmit(formData) {
-  const data = Object.fromEntries(formData.entries());
+  const values = Object.fromEntries(formData.entries());
 
-  try {
-    const { db } = await connectToDatabase();
-    await db.collection("store").updateOne(
-      { key: "avis" },
-      {
-        $push: {
-          value: {
-            nom: data.nom || "",
-            email: data.email || "",
-            enfantAge: data.enfantAge || "",
-            rating: Number(data.rating) || 0,
-            message: data.message || "",
-            date: new Date().toISOString(),
-          },
-        },
-      },
-      { upsert: true }
-    );
-  } catch (error) {
-    console.error("Avis submit failed:", error);
-  }
+  const avisData = {
+    nom: values.nom?.toString() || "",
+    email: values.email?.toString() || "",
+    enfantAge: values.enfantAge?.toString() || "",
+    rating: Number(values.rating || 0),
+    message: values.message?.toString() || "",
+  };
+
+  // Utiliser avisData pour l'enregistrement ou d'autres traitements
+  return avisData;
 }
 
 // DB access moved into the component to avoid running at build-time
