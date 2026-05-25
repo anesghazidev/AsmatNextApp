@@ -1,0 +1,24 @@
+.Nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin: 1.5rem auto;
+  max-width: 560px;
+}
+
+.Nav a {
+  color: #334155;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.Nav a:hover {
+  color: #2563eb;
+  opacity: 0.85;
+}
