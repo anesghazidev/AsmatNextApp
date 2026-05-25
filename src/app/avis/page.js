@@ -38,8 +38,8 @@ export default async function Avis() {
   return (
     <div className="page">
         <Nav />
-        <Hero title="Avis clients" />
-            <main>
+        <Hero href_button1={<a href="">Avis</a>}/>
+        <main>
       <div className="container">
         <div className="stats">
           <div>
