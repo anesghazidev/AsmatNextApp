@@ -5,7 +5,7 @@ import { connectToDatabase } from "@/mongodb";
 
 export const dynamic = 'force-dynamic';
 
-export async function handleSubmit(formData) {
+async function handleSubmit(formData) {
   const values = Object.fromEntries(formData.entries());
 
   const avisData = {
