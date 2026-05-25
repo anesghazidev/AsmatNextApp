@@ -1,5 +1,4 @@
 // DB helper will be imported dynamically inside the component
-import Hero from "@/components/hero";
 import Nav from "@/components/nav";
 import "@/avis.style.css";
 
@@ -37,7 +36,12 @@ export default async function Avis() {
   return (
     <div className="page">
         <Nav />
-        <Hero href_button1={<a href="">Avis</a>}/>
+        <section className="page-header">
+        <div className="container">
+            <h1>Avis des Parents</h1>
+            <p>Découvrez les témoignages de parents qui nous font confiance</p>
+        </div>
+    </section>
         <main>
       <div className="container">
         <div className="stats">
