@@ -6,16 +6,16 @@ export const dynamic = 'force-dynamic';
 
 // DB access moved into the component to avoid running at build-time
 
-export default async function Avis() {
+export default function Avis() {
         // connect to DB at request-time (not at build-time)
         let moyenne = 0
         let totalAvis = 0
         let satisfaction = 0
         try {
-            const { default: connectToDatabase } = await import("@/mongodb");
-            const { db } = await connectToDatabase();
+            const { default: connectToDatabase } = import("@/mongodb");
+            const { db } = connectToDatabase();
             const store = db.collection("store");
-            const data = await store.findOne({ key: "avis" });
+            const data = store.findOne({ key: "avis" });
             const avis = data?.value || [];
             // compute simple stats if avis is an array
             if (Array.isArray(avis) && avis.length) {
