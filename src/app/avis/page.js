@@ -1,7 +1,6 @@
 // DB helper will be imported dynamically inside the component
 import Nav from "@/components/nav";
 import "@/avis.style.css";
-import "@/style.css";
 
 export const dynamic = 'force-dynamic';
 
