@@ -1,6 +1,5 @@
 import Image from "next/image";
 import favicon from "@/images/favicon-96x96.png";
-import "@/style.css";
 
 export default function Header() {
   return (

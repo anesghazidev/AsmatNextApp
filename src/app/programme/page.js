@@ -1,7 +1,6 @@
 import Header from "@/components/header";
 import Hero from "@/components/hero";
 import Footer from "@/components/footer";
-import "@/style.css";
 
 export default function Programme() {
     return (

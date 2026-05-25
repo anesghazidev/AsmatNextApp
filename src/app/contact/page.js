@@ -1,7 +1,6 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ContactForm from "@/components/contact-form";
-import "@/style.css";
 import Hero from "../../components/hero";
 
 export default function Contact() {

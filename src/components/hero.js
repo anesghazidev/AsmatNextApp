@@ -1,5 +1,3 @@
-import "@/style.css";
-
 export default function Hero({ href_button1, href_button2 = null, href_button3 = null }) {
   return (
     <section className="hero">
