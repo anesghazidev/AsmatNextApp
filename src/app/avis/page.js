@@ -1,8 +1,35 @@
 // DB helper will be imported dynamically inside the component
 import Header from "@/components/header";
 import "@/avis.style.css";
+import { connectToDatabase } from "@/mongodb";
 
 export const dynamic = 'force-dynamic';
+
+export async function handleSubmit(formData) {
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const { db } = await connectToDatabase();
+    await db.collection("store").updateOne(
+      { key: "avis" },
+      {
+        $push: {
+          value: {
+            nom: data.nom || "",
+            email: data.email || "",
+            enfantAge: data.enfantAge || "",
+            rating: Number(data.rating) || 0,
+            message: data.message || "",
+            date: new Date().toISOString(),
+          },
+        },
+      },
+      { upsert: true }
+    );
+  } catch (error) {
+    console.error("Avis submit failed:", error);
+  }
+}
 
 // DB access moved into the component to avoid running at build-time
 
@@ -95,7 +122,7 @@ export default async function Avis() {
             <div className="success-message" id="successMessage">
               ✅ Votre avis a été enregistré avec succès !
             </div>
-            <form id="avisForm">
+            <form id="avisForm" action={handleSubmit} method="post">
               <div className="form-group">
                 <label htmlFor="nom">Votre Nom *</label>
                 <input type="text" id="nom" name="nom" required />
