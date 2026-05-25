@@ -4,15 +4,40 @@ import "@/avis.style.css";
 
 export const dynamic = 'force-dynamic';
 
+export async function handleSubmit(formData) {
+  const values = Object.fromEntries(formData.entries());
+
+  const avisData = {
+    nom: values.nom?.toString() || "",
+    email: values.email?.toString() || "",
+    enfantAge: values.enfantAge?.toString() || "",
+    rating: Math.min(5, Math.max(0, Number(values.rating || 0))),
+    message: values.message?.toString() || "",
+    date: new Date().toISOString(),
+  };
+
+  try {
+    const mod = await import("@/lib/avis");
+    const saveAvis = mod.saveAvis;
+    if (typeof saveAvis === "function") {
+      return await saveAvis(avisData);
+    }
+    return { ok: false, error: "saveAvis not available" };
+  } catch (error) {
+    console.error("handleSubmit error:", error);
+    return { ok: false, error: (error && error.message) || String(error) };
+  }
+}
+
 // DB access moved into the component to avoid running at build-time
 
 export default async function Avis() {
-
   // connect to DB at request-time (not at build-time)
   let moyenne = 0;
   let totalAvis = 0;
   let satisfaction = 0;
-  
+
+  try {
     const { default: connectToDatabase } = await import("@/mongodb");
     const { db } = await connectToDatabase();
     const store = db.collection("store");
@@ -28,18 +53,9 @@ export default async function Avis() {
         (avis.filter(a => (a.rating || 0) >= 4).length / totalAvis) * 100
       );
     }
-
-  function handleSubmit(formData) {
-  const values = Object.fromEntries(formData.entries());
-
-  const avisData = {
-    nom: values.nom?.toString() || "",
-    email: values.email?.toString() || "",
-    enfantAge: values.enfantAge?.toString() || "",
-    rating: Number(values.rating || 0),
-    message: values.message?.toString() || "",
-  }
-  avis.push(avisData);
+  } catch (e) {
+    // fail gracefully during build or if DB is unavailable
+    console.warn('Avis: DB access skipped or failed', e.message || e);
   }
 
   return (
