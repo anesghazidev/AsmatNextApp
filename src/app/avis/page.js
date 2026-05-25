@@ -1,4 +1,6 @@
 import connectToDatabase from "@/mongodb";
+import "@/avis.style.css"
+import "@/style.css"
 
 const { db } = await connectToDatabase();
 const store = db.collection("store");
@@ -9,25 +11,32 @@ function setObject(key, value) {
     { upsert: true }
   );
 }
+
+setObject("avis", {
+    
+})
 function getObject(key) {
     return store.findOne({key})?.value;
 }
 
 export default function Avis() {
-  return (
+    let moyenne = 0
+    let totalAvis = 0
+    let satisfaction = 0
+    return (
         <main>
         <div class="container">
             <div class="stats">
                 <div>
-                    <div class="stat-number" id="avgRating">0★</div>
+                    <div class="stat-number" id="avgRating">{moyenne}★</div>
                     <div class="stat-label">Note Moyenne</div>
                 </div>
                 <div>
-                    <div class="stat-number" id="totalAvis">0</div>
+                    <div class="stat-number" id="totalAvis">{totalAvis}</div>
                     <div class="stat-label">Avis Total</div>
                 </div>
                 <div>
-                    <div class="stat-number" id="satisfaction">0%</div>
+                    <div class="stat-number" id="satisfaction">{satisfaction}%</div>
                     <div class="stat-label">Satisfaction</div>
                 </div>
             </div>
@@ -52,7 +61,7 @@ export default function Avis() {
                     <div class="success-message" id="successMessage">
                         ✅ Votre avis a été enregistré avec succès !
                     </div>
-                    <form id="avisForm">
+                    <form id="avisForm" action={handleSubmit()}>
                         <div class="form-group">
                             <label for="nom">Votre Nom *</label>
                             <input type="text" id="nom" name="nom" required />
