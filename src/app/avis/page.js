@@ -1,5 +1,5 @@
 // DB helper will be imported dynamically inside the component
-import Nav from "@/components/nav";
+import Header from "@/components/header";
 import "@/avis.style.css";
 
 export const dynamic = 'force-dynamic';
@@ -35,7 +35,7 @@ export default async function Avis() {
 
   return (
     <div className="page">
-        <Nav />
+        <Header />
         <section className="page-header">
         <div className="container">
             <h1>Avis des Parents</h1>
