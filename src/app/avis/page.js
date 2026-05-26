@@ -5,6 +5,7 @@ import "@/avis.style.css";
 export const dynamic = 'force-dynamic';
 
 export async function handleSubmit(formData) {
+  "use server";
   const values = Object.fromEntries(formData.entries());
 
   const avisData = {
