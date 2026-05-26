@@ -6,6 +6,14 @@ export async function saveAvis(avis) {
 
     const { db } = await connectToDatabase();
 
+    const current = await db.collection("store").findOne({ key: "avis" });
+    if (current && !Array.isArray(current.value)) {
+      await db.collection("store").updateOne(
+        { key: "avis" },
+        { $set: { value: [] } }
+      );
+    }
+
     const doc = {
       nom: (avis.nom || "").toString(),
       email: (avis.email || "").toString(),

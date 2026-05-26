@@ -19,7 +19,7 @@ export default async function Avis({ searchParams }) {
     const { db } = await connectToDatabase();
     const store = db.collection("store");
     const data = await store.findOne({ key: "avis" });
-    avis = data?.value || [];
+    const avis = Array.isArray(data?.value) ? data.value : [];
 
     if (Array.isArray(avis) && avis.length) {
       totalAvis = avis.length;
