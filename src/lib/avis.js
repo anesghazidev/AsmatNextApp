@@ -8,9 +8,12 @@ export async function saveAvis(avis) {
 
     const current = await db.collection("store").findOne({ key: "avis" });
     if (current && !Array.isArray(current.value)) {
+      const normalizedValue = current.value && typeof current.value === "object"
+        ? Object.values(current.value)
+        : [];
       await db.collection("store").updateOne(
         { key: "avis" },
-        { $set: { value: [] } }
+        { $set: { value: normalizedValue } }
       );
     }
 
