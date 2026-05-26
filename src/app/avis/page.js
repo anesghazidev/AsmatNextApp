@@ -1,4 +1,5 @@
 // DB helper will be imported dynamically inside the component
+import { redirect } from "next/navigation";
 import Header from "@/components/header";
 import "@/avis.style.css";
 
@@ -21,9 +22,13 @@ export async function handleSubmit(formData) {
     const mod = await import("@/lib/avis");
     const saveAvis = mod.saveAvis;
     if (typeof saveAvis === "function") {
-      return await saveAvis(avisData);
+      const result = await saveAvis(avisData);
+      if (result.ok) {
+        redirect("/avis?submitted=1");
+      }
+      throw new Error(result.error || "Échec de l'enregistrement de l'avis");
     }
-    return { ok: false, error: "saveAvis not available" };
+    throw new Error("saveAvis not available");
   } catch (error) {
     console.error("handleSubmit error:", error);
     return { ok: false, error: (error && error.message) || String(error) };
@@ -32,7 +37,7 @@ export async function handleSubmit(formData) {
 
 // DB access moved into the component to avoid running at build-time
 
-export default async function Avis() {
+export default async function Avis({ searchParams }) {
   // connect to DB at request-time (not at build-time)
   let moyenne = 0;
   let totalAvis = 0;
@@ -58,6 +63,8 @@ export default async function Avis() {
     // fail gracefully during build or if DB is unavailable
     console.warn('Avis: DB access skipped or failed', e.message || e);
   }
+
+  const success = searchParams?.submitted === "1";
 
   return (
     <div className="page">
@@ -118,9 +125,11 @@ export default async function Avis() {
 
           <div className="form-section">
             <h2>✍️ Ajouter un Avis</h2>
-            <div className="success-message" id="successMessage">
-              ✅ Votre avis a été enregistré avec succès !
-            </div>
+            {success && (
+              <div className="success-message" id="successMessage">
+                ✅ Votre avis a été enregistré avec succès !
+              </div>
+            )}
             <form id="avisForm" action={handleSubmit} method="post">
               <div className="form-group">
                 <label htmlFor="nom">Votre Nom *</label>
