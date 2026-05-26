@@ -1,39 +1,9 @@
 // DB helper will be imported dynamically inside the component
-import { redirect } from "next/navigation";
 import Header from "@/components/header";
 import "@/avis.style.css";
+import AvisClientForm from "./AvisClientForm";
 
 export const dynamic = 'force-dynamic';
-
-export async function handleSubmit(formData) {
-  "use server";
-  const values = Object.fromEntries(formData.entries());
-
-  const avisData = {
-    nom: values.nom?.toString() || "",
-    email: values.email?.toString() || "",
-    enfantAge: values.enfantAge?.toString() || "",
-    rating: Math.min(5, Math.max(0, Number(values.rating || 0))),
-    message: values.message?.toString() || "",
-    date: new Date().toISOString(),
-  };
-
-  try {
-    const mod = await import("@/lib/avis");
-    const saveAvis = mod.saveAvis;
-    if (typeof saveAvis === "function") {
-      const result = await saveAvis(avisData);
-      if (result.ok) {
-        redirect("/avis?submitted=1");
-      }
-      redirect(`/avis?error=${encodeURIComponent(result.error || "Échec de l'enregistrement de l'avis")}`);
-    }
-    redirect(`/avis?error=${encodeURIComponent("saveAvis not available")}`);
-  } catch (error) {
-    console.error("handleSubmit error:", error);
-    redirect(`/avis?error=${encodeURIComponent((error && error.message) || String(error))}`);
-  }
-}
 
 // DB access moved into the component to avoid running at build-time
 
@@ -66,7 +36,6 @@ export default async function Avis({ searchParams }) {
 
   const success = searchParams?.submitted === "1";
   const errorMessage = searchParams?.error || null;
-  let activeSort = "recent";
 
   return (
     <div className="page">
@@ -101,95 +70,7 @@ export default async function Avis({ searchParams }) {
         </div>
 
         <div className="content-wrapper">
-          <div className="avis-section">
-            <h2>📝 Avis des Parents</h2>
-            <div className="sort-section">
-              <span className="sort-label">Trier par :</span>
-              <button className="sort-btn active" data-sort="recent" onClick={() => (activeSort = "recent", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
-                Plus récents
-              </button>
-              <button className="sort-btn" data-sort="ancien" onClick={() => (activeSort = "ancien", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
-                Plus anciens
-              </button>
-              <button className="sort-btn" data-sort="note-high" onClick={() => (activeSort = "note-high", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
-                Meilleures notes
-              </button>
-              <button className="sort-btn" data-sort="note-low" onClick={() => (activeSort = "note-low", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
-                Notes les plus basses
-              </button>
-            </div>
-            <div className="avis-list" id="avisList">
-              <div className="empty-message">
-                Aucun avis pour le moment. Soyez le premier à partager votre expérience !
-              </div>
-            </div>
-          </div>
-
-          <div className="form-section">
-            <h2>✍️ Ajouter un Avis</h2>
-            {success && (
-              <div className="success-message" id="successMessage">
-                ✅ Votre avis a été enregistré avec succès !
-              </div>
-            )}
-            {errorMessage && (
-              <div className="error-message" id="errorMessage">
-                ⚠️ {errorMessage}
-              </div>
-            )}
-            <form id="avisForm" action={handleSubmit} method="post">
-              <div className="form-group">
-                <label htmlFor="nom">Votre Nom *</label>
-                <input type="text" id="nom" name="nom" required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Votre Email *</label>
-                <input type="email" id="email" name="email" required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="enfantAge">Âge de l'enfant</label>
-                <input type="text" id="enfantAge" placeholder="Ex: 2 ans, 18 mois" />
-              </div>
-
-              <div className="form-group">
-                <label>Votre Note *</label>
-                <div className="rating-input">
-                  <button type="button" className="star-btn" data-rating="1">
-                    ★
-                  </button>
-                  <button type="button" className="star-btn" data-rating="2">
-                    ★
-                  </button>
-                  <button type="button" className="star-btn" data-rating="3">
-                    ★
-                  </button>
-                  <button type="button" className="star-btn" data-rating="4">
-                    ★
-                  </button>
-                  <button type="button" className="star-btn" data-rating="5">
-                    ★
-                  </button>
-                </div>
-                <input type="hidden" id="rating" name="rating" value="0" />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="message">Votre Avis *</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  placeholder="Partagez votre expérience..."
-                  required
-                ></textarea>
-              </div>
-
-              <button type="submit" className="btn">
-                Envoyer mon Avis
-              </button>
-            </form>
-          </div>
+          <AvisClientForm success={success} errorMessage={errorMessage} />
         </div>
       </div>
     </main>
