@@ -26,12 +26,12 @@ export async function handleSubmit(formData) {
       if (result.ok) {
         redirect("/avis?submitted=1");
       }
-      throw new Error(result.error || "Échec de l'enregistrement de l'avis");
+      redirect(`/avis?error=${encodeURIComponent(result.error || "Échec de l'enregistrement de l'avis")}`);
     }
-    throw new Error("saveAvis not available");
+    redirect(`/avis?error=${encodeURIComponent("saveAvis not available")}`);
   } catch (error) {
     console.error("handleSubmit error:", error);
-    return { ok: false, error: (error && error.message) || String(error) };
+    redirect(`/avis?error=${encodeURIComponent((error && error.message) || String(error))}`);
   }
 }
 
@@ -65,6 +65,8 @@ export default async function Avis({ searchParams }) {
   }
 
   const success = searchParams?.submitted === "1";
+  const errorMessage = searchParams?.error || null;
+  let activeSort = "recent";
 
   return (
     <div className="page">
@@ -103,16 +105,16 @@ export default async function Avis({ searchParams }) {
             <h2>📝 Avis des Parents</h2>
             <div className="sort-section">
               <span className="sort-label">Trier par :</span>
-              <button className="sort-btn active" data-sort="recent">
+              <button className="sort-btn active" data-sort="recent" onClick={() => (activeSort = "recent", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
                 Plus récents
               </button>
-              <button className="sort-btn" data-sort="ancien">
+              <button className="sort-btn" data-sort="ancien" onClick={() => (activeSort = "ancien", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
                 Plus anciens
               </button>
-              <button className="sort-btn" data-sort="note-high">
+              <button className="sort-btn" data-sort="note-high" onClick={() => (activeSort = "note-high", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
                 Meilleures notes
               </button>
-              <button className="sort-btn" data-sort="note-low">
+              <button className="sort-btn" data-sort="note-low" onClick={() => (activeSort = "note-low", document.querySelectorAll(".sort-btn").forEach(btn => btn.classList.remove("active")), event.currentTarget.classList.add("active"))}>
                 Notes les plus basses
               </button>
             </div>
@@ -128,6 +130,11 @@ export default async function Avis({ searchParams }) {
             {success && (
               <div className="success-message" id="successMessage">
                 ✅ Votre avis a été enregistré avec succès !
+              </div>
+            )}
+            {errorMessage && (
+              <div className="error-message" id="errorMessage">
+                ⚠️ {errorMessage}
               </div>
             )}
             <form id="avisForm" action={handleSubmit} method="post">
