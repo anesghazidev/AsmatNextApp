@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { handleSubmit } from "./actions";
+import AvisContainers from "@/components/avis-containers";
 
 const sortOptions = [
   { value: "recent", label: "Plus récents" },
@@ -9,19 +10,6 @@ const sortOptions = [
   { value: "note-high", label: "Meilleures notes" },
   { value: "note-low", label: "Notes les plus basses" },
 ];
-
-function formatDate(dateString) {
-  if (!dateString) return "Date inconnue";
-  try {
-    return new Intl.DateTimeFormat("fr-FR", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    }).format(new Date(dateString));
-  } catch {
-    return dateString;
-  }
-}
 
 export default function AvisClientForm({ avis = [], success, errorMessage }) {
   const [rating, setRating] = useState(0);
@@ -66,25 +54,14 @@ export default function AvisClientForm({ avis = [], success, errorMessage }) {
             </button>
           ))}
         </div>
+
         <div className="avis-list" id="avisList">
           {sortedAvis.length === 0 ? (
             <div className="empty-message">
               Aucun avis pour le moment. Soyez le premier à partager votre expérience !
             </div>
           ) : (
-            sortedAvis.map((avisItem, index) => (
-              <article className="avis-card" key={`${avisItem.email || avisItem.nom || index}-${index}`}>
-                <div className="avis-header">
-                  <strong>{avisItem.nom || "Parent"}</strong>
-                  <span>{avisItem.enfantAge || "Âge non précisé"}</span>
-                </div>
-                <div className="avis-meta">
-                  <span className="avis-rating">{avisItem.rating || 0}★</span>
-                  <span className="avis-date">{formatDate(avisItem.date)}</span>
-                </div>
-                <p>{avisItem.message || "Aucun message"}</p>
-              </article>
-            ))
+            <AvisContainers avis={sortedAvis} />
           )}
         </div>
       </div>

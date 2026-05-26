@@ -1,23 +1,29 @@
-export default function AvisContainers(mongoArray) {
-    if (!Array.isArray(mongoArray)) throw new Error("Expected an array of avis");
-    else return (
-        mongoArray.map((avis) => (
-            <div class="avis-card" key={avis._id}>
-                <div class="avis-header">
-                    <div class="author-info">
-                        <h3>{avis.nom}</h3>
-                        <div class="date">{avis.date}</div>
-                    </div>
-                    <div class="rating">
-                        {Array.from({ length: 5 }, (_, i) => (
-                            <span class="star" key={i}>
-                                {i < avis.rating ? "★" : "☆"}
-                            </span>
-                            ))}
-                        </div>
-                    </div>
-                    <div class="avis-text">{avis.message}</div>
-                    <span class="badge">Enfant : {avis.enfantAge}</span>
+export default function AvisContainers({ avis = [] }) {
+  if (!Array.isArray(avis)) {
+    throw new Error("Expected an array of avis");
+  }
+
+  return (
+    <>
+      {avis.map((item, index) => (
+        <div className="avis-card" key={item._id || item.email || index}>
+          <div className="avis-header">
+            <div className="author-info">
+              <h3>{item.nom || "Parent"}</h3>
+              <div className="date">{item.date || "Date inconnue"}</div>
+            </div>
+            <div className="rating">
+              {Array.from({ length: 5 }, (_, i) => (
+                <span className="star" key={i}>
+                  {i < (item.rating || 0) ? "★" : "☆"}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="avis-text">{item.message || "Aucun message"}</div>
+          <span className="badge">Enfant : {item.enfantAge || "non précisé"}</span>
         </div>
-    )
+      ))}
+    </>
+  );
 }
