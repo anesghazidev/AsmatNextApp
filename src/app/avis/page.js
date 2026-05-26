@@ -12,13 +12,14 @@ export default async function Avis({ searchParams }) {
   let moyenne = 0;
   let totalAvis = 0;
   let satisfaction = 0;
+  let avis = [];
 
   try {
     const { default: connectToDatabase } = await import("@/mongodb");
     const { db } = await connectToDatabase();
     const store = db.collection("store");
     const data = await store.findOne({ key: "avis" });
-    const avis = data?.value || [];
+    avis = data?.value || [];
 
     if (Array.isArray(avis) && avis.length) {
       totalAvis = avis.length;
@@ -70,7 +71,7 @@ export default async function Avis({ searchParams }) {
         </div>
 
         <div className="content-wrapper">
-          <AvisClientForm success={success} errorMessage={errorMessage} />
+          <AvisClientForm success={success} errorMessage={errorMessage} avis={avis} />
         </div>
       </div>
     </main>

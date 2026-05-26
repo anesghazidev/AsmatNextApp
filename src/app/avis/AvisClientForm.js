@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { handleSubmit } from "./actions";
 
 const sortOptions = [
@@ -10,9 +10,44 @@ const sortOptions = [
   { value: "note-low", label: "Notes les plus basses" },
 ];
 
-export default function AvisClientForm({ success, errorMessage }) {
+function formatDate(dateString) {
+  if (!dateString) return "Date inconnue";
+  try {
+    return new Intl.DateTimeFormat("fr-FR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(dateString));
+  } catch {
+    return dateString;
+  }
+}
+
+export default function AvisClientForm({ avis = [], success, errorMessage }) {
   const [rating, setRating] = useState(0);
   const [sortOption, setSortOption] = useState("recent");
+
+  const sortedAvis = useMemo(() => {
+    const list = Array.isArray(avis) ? [...avis] : [];
+    return list.sort((a, b) => {
+      const aRating = Number(a.rating || 0);
+      const bRating = Number(b.rating || 0);
+      const aDate = a.date ? new Date(a.date).getTime() : 0;
+      const bDate = b.date ? new Date(b.date).getTime() : 0;
+
+      switch (sortOption) {
+        case "ancien":
+          return aDate - bDate;
+        case "note-high":
+          return bRating - aRating;
+        case "note-low":
+          return aRating - bRating;
+        case "recent":
+        default:
+          return bDate - aDate;
+      }
+    });
+  }, [avis, sortOption]);
 
   return (
     <div className="content-wrapper">
@@ -32,9 +67,25 @@ export default function AvisClientForm({ success, errorMessage }) {
           ))}
         </div>
         <div className="avis-list" id="avisList">
-          <div className="empty-message">
-            Aucun avis pour le moment. Soyez le premier à partager votre expérience !
-          </div>
+          {sortedAvis.length === 0 ? (
+            <div className="empty-message">
+              Aucun avis pour le moment. Soyez le premier à partager votre expérience !
+            </div>
+          ) : (
+            sortedAvis.map((avisItem, index) => (
+              <article className="avis-card" key={`${avisItem.email || avisItem.nom || index}-${index}`}>
+                <div className="avis-header">
+                  <strong>{avisItem.nom || "Parent"}</strong>
+                  <span>{avisItem.enfantAge || "Âge non précisé"}</span>
+                </div>
+                <div className="avis-meta">
+                  <span className="avis-rating">{avisItem.rating || 0}★</span>
+                  <span className="avis-date">{formatDate(avisItem.date)}</span>
+                </div>
+                <p>{avisItem.message || "Aucun message"}</p>
+              </article>
+            ))
+          )}
         </div>
       </div>
 
