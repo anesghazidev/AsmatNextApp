@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import "@/avis.style.css";
 import AvisClientForm from "./AvisClientForm";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 // DB access moved into the component to avoid running at build-time
 
@@ -23,8 +23,8 @@ export default async function Avis({ searchParams }) {
     avis = Array.isArray(value)
       ? value
       : value && typeof value === "object"
-      ? Object.values(value)
-      : [];
+        ? Object.values(value)
+        : [];
 
     if (Array.isArray(avis) && avis.length) {
       totalAvis = avis.length;
@@ -32,54 +32,55 @@ export default async function Avis({ searchParams }) {
         avis.reduce((s, a) => s + (a.rating || 0), 0) / totalAvis
       ).toFixed(1);
       satisfaction = Math.round(
-        (avis.filter(a => (a.rating || 0) >= 4).length / totalAvis) * 100
+        (avis.filter((a) => (a.rating || 0) >= 4).length / totalAvis) * 100,
       );
     }
   } catch (e) {
     // fail gracefully during build or if DB is unavailable
-    console.warn('Avis: DB access skipped or failed', e.message || e);
+    console.warn("Avis: DB access skipped or failed", e.message || e);
   }
 
-  const success = searchParams?.submitted === "1";
-  const errorMessage = searchParams?.error || null;
+  const params = await searchParams;
+  const success = params?.submitted === "1";
+  const errorMessage = params?.error || null;
 
   return (
     <div className="page">
-        <Header />
-        <section className="page-header">
+      <Header />
+      <section className="page-header">
         <div className="container">
-            <h1>Avis des Parents</h1>
-            <p>Découvrez les témoignages de parents qui nous font confiance</p>
+          <h1>Avis des Parents</h1>
+          <p>Découvrez les témoignages de parents qui nous font confiance</p>
         </div>
-    </section>
-        <main>
-      <div className="container">
-        <div className="stats">
-          <div>
-            <div className="stat-number" id="avgRating">
-              {moyenne}★
+      </section>
+      <main>
+        <div className="container">
+          <div className="stats">
+            <div>
+              <div className="stat-number" id="avgRating">
+                {moyenne}★
+              </div>
+              <div className="stat-label">Note Moyenne</div>
             </div>
-            <div className="stat-label">Note Moyenne</div>
-          </div>
-          <div>
-            <div className="stat-number" id="totalAvis">
-              {totalAvis}
+            <div>
+              <div className="stat-number" id="totalAvis">
+                {totalAvis}
+              </div>
+              <div className="stat-label">Avis Total</div>
             </div>
-            <div className="stat-label">Avis Total</div>
-          </div>
-          <div>
-            <div className="stat-number" id="satisfaction">
-              {satisfaction}%
+            <div>
+              <div className="stat-number" id="satisfaction">
+                {satisfaction}%
+              </div>
+              <div className="stat-label">Satisfaction</div>
             </div>
-            <div className="stat-label">Satisfaction</div>
           </div>
-        </div>
 
-        <div className="content-wrapper">
-          <AvisClientForm avis={avis} success={success} errorMessage={errorMessage} />
+          <div className="content-wrapper">
+            <AvisClientForm avis={avis} success={success} errorMessage={errorMessage} />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
     </div>
   );
 }

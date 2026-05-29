@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { handleSubmit } from "./actions";
-import AvisContainers from "@/components/avis-containers";
+import Boxes from "@/components/avis-boxes";
 
 const sortOptions = [
   { value: "recent", label: "Plus récents" },
@@ -56,15 +56,8 @@ export default function AvisClientForm({ avis = [], success, errorMessage }) {
         </div>
 
         <div className="avis-list" id="avisList">
-          {sortedAvis.length === 0 ? (
-            <div className="empty-message">
-              Aucun avis pour le moment. Soyez le premier à partager votre expérience !
-            </div>
-          ) : (
-            <AvisContainers avis={sortedAvis} />
-          )}
+          <Boxes array={sortedAvis} />
         </div>
-      </div>
 
       <div className="form-section">
         <h2>✍️ Ajouter un Avis</h2>
@@ -78,7 +71,7 @@ export default function AvisClientForm({ avis = [], success, errorMessage }) {
             ⚠️ {errorMessage}
           </div>
         )}
-        <form id="avisForm" action={handleSubmit} method="post">
+        <form id="avisForm" action={handleSubmit} method="POST">
           <div className="form-group">
             <label htmlFor="nom">Votre Nom *</label>
             <input type="text" id="nom" name="nom" required />
@@ -127,6 +120,7 @@ export default function AvisClientForm({ avis = [], success, errorMessage }) {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 }
