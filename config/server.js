@@ -1,5 +1,8 @@
 import { createServer } from 'http'
 import next from 'next'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default function Server(port, type, dotenv_var){
   const http = type === "http"

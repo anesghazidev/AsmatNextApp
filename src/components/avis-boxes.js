@@ -6,7 +6,7 @@ export default function Boxes({array}) {
     } else {
             return (
                 <div className="avis-section">
-                    {array.map((item, index) => (
+                    {array.map((index, item) => (
                         <AvisContainers key={index} array={item} />
                     ))}
                 </div>
