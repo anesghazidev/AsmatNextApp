@@ -12,7 +12,7 @@ export default function TemoignageForm() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="message">Votre Avis *</label>
+            <label htmlFor="message">Votre témoignage *</label>
             <textarea
               id="message"
               name="message"
