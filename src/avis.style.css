@@ -231,6 +231,7 @@
             height: fit-content;
             position: sticky;
             top: 120px;
+            width:  max-content;
         }
 
         .form-group {

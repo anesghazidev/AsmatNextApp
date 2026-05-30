@@ -2,6 +2,8 @@
 import Header from "@/components/header";
 import "@/avis.style.css";
 import AvisClientForm from "./AvisClientForm";
+import AvisSection from "./AvisSection";
+import TemoignageForm from "./TemoignageForm";
 
 export const dynamic = "force-dynamic";
 
@@ -77,7 +79,9 @@ export default async function Avis({ searchParams }) {
           </div>
 
           <div className="content-wrapper">
+            <AvisSection avis={avis}/>
             <AvisClientForm avis={avis} success={success} errorMessage={errorMessage} />
+            <TemoignageForm />
           </div>
         </div>
       </main>
