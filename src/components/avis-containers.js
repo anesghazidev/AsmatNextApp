@@ -4,7 +4,7 @@ export default function AvisContainers({ avis = [] }) {
   }
 
   return (
-        <div className="avis-card" key={avis._id || avis.email || index}>
+        <div className="avis-card">
           <div className="avis-header">
             <div className="author-info">
               <h3>{avis.nom || "Parent"}</h3>
