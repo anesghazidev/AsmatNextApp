@@ -1,6 +1,10 @@
-export default function AvisContainers({ avis = [] }) {
-  if (!Array.isArray(avis)) {
-    throw new Error("Expected an array of avis");
+export default function AvisContainers({ avis = {} }) {
+  if (!avis || typeof avis !== "object" || Array.isArray(avis)) {
+    return (
+      <div className="avis-card empty">
+        <div className="avis-text">Avis invalide ou manquant.</div>
+      </div>
+    );
   }
 
   return (
