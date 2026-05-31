@@ -144,6 +144,16 @@
             box-sizing: border-box;
         }
 
+        /* Formulaire témoignage plus large et textarea plus haute */
+        .forms-wrapper .form-section.temoignage {
+            flex: 0 0 520px;
+            max-width: 520px;
+        }
+
+        .forms-wrapper .form-section.temoignage textarea {
+            min-height: 160px;
+        }
+
         .avis-section h2,
         .form-section h2 {
             color: #667eea;

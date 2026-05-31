@@ -2,7 +2,7 @@ import { saveTemoignage } from "@/lib/avis";
 
 export default function TemoignageForm() {
   return (
-    <div className="form-section">
+    <div className="form-section temoignage">
       <h2>✍️ Témoigner</h2>
       <form id="avisForm" action={saveTemoignage}>
         <div className="form-group">
