@@ -153,6 +153,7 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            height: 496.4px; /* 320px de largeur + 176.4px pour le textarea plus haut */
         }
 
         .forms-wrapper .form-section.temoignage form {
