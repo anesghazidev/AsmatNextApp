@@ -1,5 +1,5 @@
 import { saveTemoignage } from "@/lib/avis";
-import "@/avis.css";
+import "@/avis.style.css";
 
 export default function TemoignageForm() {
   return (
