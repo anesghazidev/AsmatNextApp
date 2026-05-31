@@ -122,7 +122,7 @@
 
         .content-wrapper {
             display: grid;
-            grid-template-columns: 1fr 360px;
+            grid-template-columns: 1fr 720px;
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
@@ -131,13 +131,16 @@
 
         .forms-wrapper {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 1rem;
-            align-items: stretch;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
         }
 
         .forms-wrapper .form-section {
-            width: 100%;
+            flex: 0 0 320px;
+            max-width: 320px;
             box-sizing: border-box;
         }
 
