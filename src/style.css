@@ -213,23 +213,37 @@ li {
         }
 
         .form-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            flex-wrap: wrap;
             margin-bottom: 1.5rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .form-group > label {
+            display: inline-flex;
+            align-items: center;
+            min-width: 180px;
+            margin-bottom: 0;
             font-weight: bold;
             color: #667eea;
         }
 
-        input, textarea {
-            width: 100%;
+        .form-group > input,
+        .form-group > textarea,
+        .form-group > select {
+            flex: 1 1 260px;
+            min-width: 200px;
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 5px;
             font-family: inherit;
             transition: border-color 0.3s;
+        }
+
+        .form-group > .rating-input {
+            flex: 1 1 260px;
+            min-width: 200px;
         }
 
         input:focus, textarea:focus {

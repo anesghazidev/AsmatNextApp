@@ -235,29 +235,41 @@
         }
 
         .form-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            flex-wrap: wrap;
             margin-bottom: 1.5rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .form-group > label {
+            display: inline-flex;
+            align-items: center;
+            min-width: 180px;
+            margin-bottom: 0;
             font-weight: bold;
             color: #667eea;
             font-size: 0.95rem;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        textarea,
-        select {
-            width: 100%;
+        .form-group > input[type="text"],
+        .form-group > input[type="email"],
+        .form-group > input[type="tel"],
+        .form-group > textarea,
+        .form-group > select {
+            flex: 1 1 260px;
+            min-width: 200px;
             padding: 10px;
             border: 2px solid #ddd;
             border-radius: 5px;
             font-family: inherit;
             font-size: 0.95rem;
             transition: border-color 0.3s;
+        }
+
+        .form-group > .rating-input {
+            flex: 1 1 260px;
+            min-width: 200px;
         }
 
         input[type="text"]:focus,
