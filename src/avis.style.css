@@ -177,7 +177,8 @@
         }
 
         .forms-wrapper .form-section.temoignage textarea {
-            min-height: 280px;
+            min-height: 200px;
+            min-width: 90px;
         }
 
         .avis-section h2,
