@@ -4,7 +4,7 @@ export default function TemoignageForm() {
   return (
     <div className="content-wrapper">
       <div className="form-section">
-        <h2>✍️ Ajouter un témoignage</h2>
+        <h2>✍️ Témoignager</h2>
         <form id="avisForm" action={saveTemoignage}>
           <div className="form-group">
             <label htmlFor="nom">Votre Nom *</label>
@@ -22,7 +22,7 @@ export default function TemoignageForm() {
           </div>
 
           <button type="submit" className="btn">
-            Envoyer mon Avis
+            Envoyer mon témoignage
           </button>
         </form>
       </div>
