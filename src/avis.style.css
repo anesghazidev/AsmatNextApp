@@ -146,12 +146,12 @@
 
         /* Formulaire témoignage plus large et textarea plus haute */
         .forms-wrapper .form-section.temoignage {
-            flex: 0 0 520px;
-            max-width: 520px;
+            flex: 0 0 320px;
+            max-width: 320px;
         }
 
         .forms-wrapper .form-section.temoignage textarea {
-            min-height: 160px;
+            min-height: 80px;
         }
 
         .avis-section h2,
