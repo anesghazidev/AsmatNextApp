@@ -148,10 +148,28 @@
         .forms-wrapper .form-section.temoignage {
             flex: 0 0 320px;
             max-width: 320px;
+            /* aligner la hauteur sur la liste d'avis */
+            min-height: 800px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        .forms-wrapper .form-section.temoignage form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            flex: 1 1 auto;
+        }
+
+        .forms-wrapper .form-section.temoignage .form-group {
+            display: block;
+            margin-bottom: 0.5rem;
         }
 
         .forms-wrapper .form-section.temoignage textarea {
-            min-height: 80px;
+            flex: 1 1 auto;
+            min-height: 0;
         }
 
         .avis-section h2,
