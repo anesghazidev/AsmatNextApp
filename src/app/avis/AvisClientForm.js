@@ -1,25 +1,24 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { handleSubmit } from "./actions";
 
 export default function AvisClientForm({ avis = [], success, errorMessage }) {
   const [rating, setRating] = useState(0);
   return (
-    <div className="content-wrapper">
-      <div className="form-section">
-        <h2>✍️ Ajouter un Avis</h2>
-        {success && (
-          <div className="success-message" id="successMessage">
-            ✅ Votre avis a été enregistré avec succès !
-          </div>
-        )}
-        {errorMessage && (
-          <div className="error-message" id="errorMessage">
-            ⚠️ {errorMessage}
-          </div>
-        )}
-        <form id="avisForm" action={handleSubmit}>
+    <div className="form-section">
+      <h2>✍️ Ajouter un Avis</h2>
+      {success && (
+        <div className="success-message" id="successMessage">
+          ✅ Votre avis a été enregistré avec succès !
+        </div>
+      )}
+      {errorMessage && (
+        <div className="error-message" id="errorMessage">
+          ⚠️ {errorMessage}
+        </div>
+      )}
+      <form id="avisForm" action={handleSubmit}>
           <div className="form-group">
             <label htmlFor="nom">Votre Nom *</label>
             <input type="text" id="nom" name="nom" required />
@@ -68,6 +67,5 @@ export default function AvisClientForm({ avis = [], success, errorMessage }) {
           </button>
         </form>
       </div>
-    </div>
   );
 }

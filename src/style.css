@@ -213,27 +213,18 @@ li {
         }
 
         .form-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            flex-wrap: wrap;
             margin-bottom: 1.5rem;
         }
 
-        .form-group > label {
-            display: inline-flex;
-            align-items: center;
-            min-width: 180px;
-            margin-bottom: 0;
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
             font-weight: bold;
             color: #667eea;
         }
 
-        .form-group > input,
-        .form-group > textarea,
-        .form-group > select {
-            flex: 1 1 260px;
-            min-width: 200px;
+        input, textarea {
+            width: 100%;
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 5px;

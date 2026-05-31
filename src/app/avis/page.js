@@ -80,8 +80,10 @@ export default async function Avis({ searchParams }) {
 
           <div className="content-wrapper">
             <AvisSection avis={avis}/>
-            <AvisClientForm avis={avis} success={success} errorMessage={errorMessage} />
-            <TemoignageForm />
+            <div className="forms-wrapper">
+              <AvisClientForm avis={avis} success={success} errorMessage={errorMessage} />
+              <TemoignageForm />
+            </div>
           </div>
         </div>
       </main>
