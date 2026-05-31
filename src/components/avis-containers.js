@@ -1,4 +1,4 @@
-import { convertDateToFrenchFormat } from "@/lib/time";
+import formatTimeAgo from "@/lib/time";
 export default function AvisContainers({ avis = {} }) {
   if (!avis || typeof avis !== "object" || Array.isArray(avis)) {
     return (
@@ -13,7 +13,7 @@ export default function AvisContainers({ avis = {} }) {
           <div className="avis-header">
             <div className="author-info">
               <h3>{avis.nom || "Parent"}</h3>
-              <div className="date">{convertDateToFrenchFormat(avis.date) || "Date inconnue"}</div>
+              <div className="date">{formatTimeAgo(avis.date) || "Date inconnue"}</div>
             </div>
             <div className="rating">
               {Array.from({ length: 5 }, (_, i) => (
