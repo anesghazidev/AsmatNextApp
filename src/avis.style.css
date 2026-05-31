@@ -133,7 +133,7 @@
             display: flex;
             flex-direction: row;
             gap: 1rem;
-            align-items: flex-start;
+            align-items: stretch;
             justify-content: flex-start;
             flex-wrap: nowrap;
         }
@@ -142,6 +142,8 @@
             flex: 0 0 320px;
             max-width: 320px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Formulaire témoignage plus large et textarea plus haute */
@@ -157,7 +159,15 @@
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            flex: none;
+            flex: 1 1 auto;
+        }
+
+        /* Ensure all form sections' forms expand to fill their container height */
+        .forms-wrapper .form-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            flex: 1 1 auto;
         }
 
         .forms-wrapper .form-section.temoignage .form-group {
